@@ -1,0 +1,8 @@
+{
+    "name": "node-app",
+    "version": "0.0.1",
+    "author": "Defense Unicorns<hello@defenseunicorns.com>",
+    "dependencies": {
+        "lodash": "^4.17.21"
+    }
+}

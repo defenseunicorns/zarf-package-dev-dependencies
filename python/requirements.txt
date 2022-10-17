@@ -1,0 +1,4 @@
+--index-url=https://github.com/packages/pypi/simple
+--extra-index-url=https://github.com/packages/pypi/simple
+
+numpy==1.23.4

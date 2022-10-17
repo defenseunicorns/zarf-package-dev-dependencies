@@ -1,0 +1,72 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: package-registry
+  namespace: zarf
+  labels:
+    app: package-registry
+spec:
+  selector:
+    matchLabels:
+      app: package-registry
+  template:
+    metadata:
+      labels:
+        app: package-registry
+    spec:
+      initContainers:
+        - name: data-loader
+          image: alpine:3.15
+          command:
+            [
+              "sh",
+              "-c",
+              'while [ ! -f /packages/###ZARF_DATA_INJECTON_MARKER### ]; do echo "waiting for zarf data sync" && sleep 1; done; echo "we are done waiting!"',
+            ]
+          resources:
+            requests:
+              memory: "16Mi"
+              cpu: "50m"
+            limits:
+              memory: "64Mi"
+              cpu: "100m"
+          volumeMounts:
+            - mountPath: /packages
+              name: packages
+      containers:
+        - name: data-injection
+          # TODO: @JPERRY publish this image somewhere else that is more publicly reachable
+          #       Until then, anyone anyone can still build the image themselves from the Dockerfile in this repo..
+          image: yrrepnoj/package-publisher:0.0.5
+          env:
+            - name: GITEA_URL
+              value: "github.com"
+            - name: ZARF_USER
+              value: "garbo"
+            - name: ZARF_PASSs
+              value: "garbo"
+          resources:
+            requests:
+              memory: "16Mi"
+              cpu: "50m"
+            limits:
+              memory: "64Mi"
+              cpu: "100m"
+          volumeMounts:
+            - name: tls-certs
+              mountPath: /usr/local/share/ca-certificates
+            - mountPath: /packages
+              name: packages
+          readinessProbe:
+            exec:
+              command:
+                - "cat"
+                - "/packages/###ZARF_DATA_INJECTON_MARKER###"
+            initialDelaySeconds: 10
+            periodSeconds: 15
+      volumes:
+        - name: packages
+          emptyDir: {}
+        - name: tls-certs
+          secret:
+            secretName: agent-redirector-tls

@@ -1,0 +1,22 @@
+kind: ZarfPackageConfig
+metadata:
+  name: "package-zarf-redirector"
+  description: "Install the zarf agent redirector into a cluster"
+
+constants:
+  - name: AGENT_IMAGE
+    value: "zarfdev/agent:e8e332f142635d06ca0d9a259aac72bae6ce5e76"
+
+components:
+  - name: zarf-redirector
+    required: true
+    images:
+      - "zarfdev/agent:e8e332f142635d06ca0d9a259aac72bae6ce5e76"
+    manifests:
+      - name: zarf-redirector
+        namespace: zarf
+        files:
+          - manifests/service.yaml
+          - manifests/secret.yaml
+          - manifests/deployment.yaml
+
