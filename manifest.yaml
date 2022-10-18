@@ -48,9 +48,6 @@ spec:
               mountPath: /usr/local/share/ca-certificates
             - name: packages
               mountPath: /packages
-            - name: zarf-state
-              mountPath: /etc/zarf-state
-              readOnly: true
           readinessProbe:
             exec:
               command:
@@ -67,7 +64,7 @@ spec:
             limits:
               memory: "64Mi"
               cpu: "100m"
-          args: ["tail", "-f", "/dev/null"]
+          args: ["./forever.sh"]
       volumes:
         - name: packages
           emptyDir: {}
@@ -77,6 +74,3 @@ spec:
             items:
               - key: tls.crt
                 path: tls.crt
-        - name: zarf-state
-          secret:
-            secretName: zarf-state
