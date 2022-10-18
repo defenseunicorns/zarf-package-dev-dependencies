@@ -3,6 +3,10 @@
 # Update CA Certs that were potentially volumed into the pod
 update-ca-certificates
 
+export SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt
+export CURL_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt
+export REQUESTS_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt
+
 #####
 # Upload all the PyPI packages
 #####
@@ -21,6 +25,7 @@ token_response=$(curl -H "Content-Type: application/json" -d '{"name":"token-f-m
 npm_token=$(echo $token_response | jq -r '.sha1')
 
 # Set the npm credentials
+npm config set cafile /etc/ssl/certs/ca-certificates.crt
 npm config set registry https://${GITEA_URL}/api/packages/${ZARF_USER}/npm/
 npm config set -- "//${GITEA_URL}/api/packages/zarf-git-user/npm/:_authToken" "$npm_token"
 

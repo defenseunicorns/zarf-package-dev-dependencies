@@ -10,7 +10,7 @@ RUN apt update && apt install -y python3 \
                         nodejs \
                         npm \
                         curl \
-                        bash \
+                        git \
                         ca-certificates
 
 RUN pip3 install --upgrade pip && pip3 install twine
