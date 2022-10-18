@@ -5,13 +5,13 @@ metadata:
 
 constants:
   - name: AGENT_IMAGE
-    value: "zarfdev/agent:96d48a3554aa1a60c09424124fb69f6da546f129"
+    value: "zarfdev/agent:be373f6e3d9bdd0cd0909e51eaf49ae2466ed2e0"
 
 components:
   - name: zarf-redirector
     required: true
     images:
-      - "zarfdev/agent:96d48a3554aa1a60c09424124fb69f6da546f129"
+      - "zarfdev/agent:be373f6e3d9bdd0cd0909e51eaf49ae2466ed2e0"
       - "bitnami/kubectl:1.24.3"
     manifests:
       - name: zarf-redirector
