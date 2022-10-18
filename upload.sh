@@ -20,7 +20,7 @@ python3 -m twine upload --repository-url=https://github.com/uploading/a/pypi \
 # Set the npm credentials
 npm config set cafile /etc/ssl/certs/ca-certificates.crt
 npm config set registry https://github.com/uploading/a/npm/
-npm config set -- "//github.com/uploading/a/npm/:_authToken" "deadbeeffeeddeafdeadbeeffeeddeafdeadbeef"
+npm config set -- "//github.com/uploading/a/npm/:_authToken" "62db174df522aab21078c1f67c228f52e9ce24f7"
 
 # Publish the npm package
 for NPM_PACKAGE in /packages/npm/*; do
