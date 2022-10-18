@@ -15,9 +15,6 @@ RUN apt update && apt install -y python3 \
 
 RUN pip3 install --upgrade pip && pip3 install twine
 
-# TODO: REMOVE THIS.. This is for local testing, the /packages directory will normally be populated by the Zarf Injection
-# ADD packages/ /packages/
-
 # Simply declaring what environment variables are expected (for human sanity and documentation)
 ENV GITEA_URL ""
 ENV ZARF_USER ""

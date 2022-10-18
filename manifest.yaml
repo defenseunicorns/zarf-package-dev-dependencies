@@ -35,16 +35,7 @@ spec:
               name: packages
       containers:
         - name: data-injection
-          # TODO: @JPERRY publish this image somewhere else that is more publicly reachable
-          #       Until then, anyone anyone can still build the image themselves from the Dockerfile in this repo..
-          image: yrrepnoj/package-publisher:0.0.5
-          env:
-            - name: GITEA_URL
-              value: "github.com"
-            - name: ZARF_USER
-              value: "garbo"
-            - name: ZARF_PASSs
-              value: "garbo"
+          image: yrrepnoj/package-publisher:0.0.9
           resources:
             requests:
               memory: "16Mi"
@@ -55,8 +46,11 @@ spec:
           volumeMounts:
             - name: tls-certs
               mountPath: /usr/local/share/ca-certificates
-            - mountPath: /packages
-              name: packages
+            - name: packages
+              mountPath: /packages
+            - name: zarf-state
+              mountPath: /etc/zarf-state
+              readOnly: true
           readinessProbe:
             exec:
               command:
@@ -69,4 +63,7 @@ spec:
           emptyDir: {}
         - name: tls-certs
           secret:
-            secretName: agent-redirector-tls
+            secretName: agent-redirector-tlsa
+        - name: zarf-state
+          secret:
+            secretName: zarf-state

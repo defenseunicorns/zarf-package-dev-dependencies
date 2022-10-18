@@ -32,7 +32,7 @@ components:
           - manifest.yaml
     images:
       - alpine:3.15
-      - yrrepnoj/package-publisher:0.0.5
+      - yrrepnoj/package-publisher:0.0.9
     dataInjections:
       - source: packages
         target:
