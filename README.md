@@ -11,3 +11,5 @@ zarf tools pki github.com
 cat tls.crt | base64 # set tls_crt to this value (removing new lines)
 cat tls.key | base64 # set tls_key to this value (removing new lines)
 ```
+
+> *NOTE* this also currently requires the following line in the coredns configmap: `rewrite name github.com agent-redirector.zarf.svc.cluster.local`
