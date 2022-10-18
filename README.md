@@ -7,8 +7,8 @@ To deploy this package you must specify a TLS certificate and key that matches t
 To create this, copy `zarf-config.example.toml` to `zarf-config.toml` and run the following commands:
 
 ```shell
-zarf tools pki github.com
-cat tls.ca | base64 # set tls_ca to this value (removing new lines)
+openssl req -newkey rsa:2048 -nodes -keyout tls.key -x509 -days 365 -out tls.crt
+# cat tls.ca | base64 # set tls_ca to this value (removing new lines)
 cat tls.crt | base64 # set tls_crt to this value (removing new lines)
 cat tls.key | base64 # set tls_key to this value (removing new lines)
 ```
