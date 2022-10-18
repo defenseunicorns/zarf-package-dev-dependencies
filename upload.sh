@@ -15,16 +15,16 @@ ZARF_PASS=$(cat /etc/zarf-state/state | jq -r '.gitServer.pushPassword')
 # Upload all the PyPI packages
 #####
 python3 -m twine upload --repository-url=https://github.com/uploading/a/pypi \
+                       -u=redirector -p=replaces \
                        --skip-existing \
                        --verbose \
                        /packages/pypi/*  
-
 
 #####
 # Upload all the npm packages
 #####
 # Get a auth token for the npm repository
-token_response=$(curl -H "Content-Type: application/json" -d '{"name":"token-for-me-please"}' -u ${ZARF_USER}:${ZARF_PASS} http://zarf-gitea-http.zarf.svc.cluster.local/api/v1/users/${ZARF_USER}/tokens)
+token_response=$(curl -H "Content-Type: application/json" -d '{"name":"token-for-me-please"}' -u ${ZARF_USER}:${ZARF_PASS} http://zarf-gitea-http.zarf.svc.cluster.local:3000/api/v1/users/${ZARF_USER}/tokens)
 npm_token=$(echo $token_response | jq -r '.sha1')
 
 # Set the npm credentials
