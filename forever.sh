@@ -11,6 +11,7 @@ export TWINE_CERT=/etc/ssl/certs/ca-certificates.crt
 # Set the npm credentials
 npm config set cafile /etc/ssl/certs/ca-certificates.crt
 npm config set registry https://github.com/uploading/a/npm/
-npm config set -- "//github.com/uploading/a/npm/:_authToken" "62db174df522aab21078c1f67c228f52e9ce24f7"
+NPM_TOKEN="62db174df522aab21078c1f67c228f52e9ce24f7"
+npm config set -- "//github.com/uploading/a/npm/:_authToken" "$NPM_TOKEN"
 
 tail -f /dev/null
