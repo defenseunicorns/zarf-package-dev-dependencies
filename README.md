@@ -8,6 +8,7 @@ To create this, copy `zarf-config.example.toml` to `zarf-config.toml` and run th
 
 ```shell
 zarf tools pki github.com
+cat tls.ca | base64 # set tls_ca to this value (removing new lines)
 cat tls.crt | base64 # set tls_crt to this value (removing new lines)
 cat tls.key | base64 # set tls_key to this value (removing new lines)
 ```
