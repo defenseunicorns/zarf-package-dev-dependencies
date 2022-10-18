@@ -35,14 +35,14 @@ spec:
               name: packages
       containers:
         - name: data-injection
-          image: yrrepnoj/package-publisher:0.0.12
+          image: yrrepnoj/package-publisher:0.0.13
           resources:
             requests:
-              memory: "16Mi"
-              cpu: "50m"
-            limits:
-              memory: "64Mi"
+              memory: "256Mi"
               cpu: "100m"
+            limits:
+              memory: "1Gi"
+              cpu: "500m"
           volumeMounts:
             - name: tls-certs
               mountPath: /usr/local/share/ca-certificates
@@ -58,6 +58,16 @@ spec:
                 - "/packages/###ZARF_DATA_INJECTON_MARKER###"
             initialDelaySeconds: 10
             periodSeconds: 15
+        - name: forever-container
+          image: yrrepnoj/package-publisher:0.0.13
+          resources:
+            requests:
+              memory: "16Mi"
+              cpu: "50m"
+            limits:
+              memory: "64Mi"
+              cpu: "100m"
+          args: ["tail", "-f", "/dev/null"]
       volumes:
         - name: packages
           emptyDir: {}

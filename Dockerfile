@@ -1,4 +1,4 @@
-FROM debian:stable
+FROM node:16-bullseye-slim
 
 # Install necessary dependencies (python3, gcc, libc, libffi -> needed for twine)
 RUN apt update && apt install -y python3 \
@@ -23,4 +23,5 @@ ENV ZARF_PASS ""
 # Bring over our script to publish all the packages to the repository and run it on container startup
 COPY ./upload.sh ./upload.sh
 RUN chmod +x ./upload.sh
-ENTRYPOINT ["./upload.sh"]
+
+CMD ["./upload.sh"]
