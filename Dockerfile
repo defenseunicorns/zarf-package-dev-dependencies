@@ -22,6 +22,7 @@ ENV ZARF_PASS ""
 
 # Bring over our script to publish all the packages to the repository and run it on container startup
 COPY ./upload.sh ./upload.sh
+COPY ./forever.sh ./forever.sh
 RUN chmod +x ./upload.sh
 
 CMD ["./upload.sh"]
