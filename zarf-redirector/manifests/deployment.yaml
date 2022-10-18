@@ -43,6 +43,9 @@ spec:
             - name: zarf-state
               mountPath: /etc/zarf-state
               readOnly: true
+            - name: zarf-npm
+              mountPath: /etc/zarf-state
+              readOnly: true
       volumes:
         - name: tls-certs
           secret:
@@ -50,3 +53,12 @@ spec:
         - name: zarf-state
           secret:
             secretName: zarf-state
+            items:
+              - key: state
+                path: state
+        - name: zarf-npm
+          secret:
+            secretName: agent-redirector-npm
+            items:
+              - key: npm-token
+                path: npm

@@ -35,7 +35,7 @@ spec:
               name: packages
       containers:
         - name: data-injection
-          image: yrrepnoj/package-publisher:0.0.9
+          image: yrrepnoj/package-publisher:0.0.11
           resources:
             requests:
               memory: "16Mi"
@@ -64,6 +64,9 @@ spec:
         - name: tls-certs
           secret:
             secretName: agent-redirector-tls
+            items:
+              - key: tls.crt
+                path: tls.crt
         - name: zarf-state
           secret:
             secretName: zarf-state

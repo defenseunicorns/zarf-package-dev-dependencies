@@ -5,18 +5,20 @@ metadata:
 
 constants:
   - name: AGENT_IMAGE
-    value: "zarfdev/agent:e8e332f142635d06ca0d9a259aac72bae6ce5e76"
+    value: "zarfdev/agent:96d48a3554aa1a60c09424124fb69f6da546f129"
 
 components:
   - name: zarf-redirector
     required: true
     images:
-      - "zarfdev/agent:e8e332f142635d06ca0d9a259aac72bae6ce5e76"
+      - "zarfdev/agent:96d48a3554aa1a60c09424124fb69f6da546f129"
+      - "bitnami/kubectl:1.24.3"
     manifests:
       - name: zarf-redirector
         namespace: zarf
         files:
           - manifests/service.yaml
-          - manifests/secret.yaml
+          - manifests/npm-secret-job.yaml
+          - manifests/npm-service-account.yaml
+          - manifests/tls-secret.yaml
           - manifests/deployment.yaml
-
