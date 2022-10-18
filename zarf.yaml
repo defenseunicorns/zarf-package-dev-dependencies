@@ -4,6 +4,12 @@ metadata:
   description: Pull development dependencies for a project across an airgap.
   architecture: amd64
 
+variables:
+  - name: TLS_KEY
+    description: "The private key to use to establish a TLS connection between the redirector and the client"
+  - name: TLS_CRT
+    description: "The certificate to use to establish a TLS connection between the redirector and the client"
+
 components:
   - name: zarf-redirector
     required: true
@@ -35,6 +41,10 @@ components:
         compress: true
     scripts:
       prepare:
-        - "cd packages/pypi && curl -O https://files.pythonhosted.org/packages/0c/83/78ae18fffc185d0d57097610d5a97473ef11dbdca95f16739ee96b158087/numpy-1.23.4-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl"
-        - "cd packages/pypi && curl -O https://files.pythonhosted.org/packages/a2/bb/33c637f9d284a8b314aee0a6fc2c2ef243d9145e9480f910f4eca54e6887/pandas-1.5.0-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl"
-        - "cd packages/npm && npm pack lodash"
+        - |
+          cd packages/pypi
+          curl -O https://files.pythonhosted.org/packages/0c/83/78ae18fffc185d0d57097610d5a97473ef11dbdca95f16739ee96b158087/numpy-1.23.4-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl \
+              -O https://files.pythonhosted.org/packages/a2/bb/33c637f9d284a8b314aee0a6fc2c2ef243d9145e9480f910f4eca54e6887/pandas-1.5.0-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
+        - |
+          cd packages/npm
+          npm pack lodash

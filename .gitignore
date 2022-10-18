@@ -2,3 +2,5 @@ node/node_modules
 *.tar.zst
 packages/npm
 packages/pypi
+zarf-config.toml
+tls.*
