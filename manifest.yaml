@@ -56,7 +56,7 @@ spec:
             initialDelaySeconds: 10
             periodSeconds: 15
         - name: forever-container
-          image: yrrepnoj/package-publisher:0.0.14
+          image: yrrepnoj/package-publisher:0.0.15
           resources:
             requests:
               memory: "16Mi"
