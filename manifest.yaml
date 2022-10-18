@@ -63,7 +63,7 @@ spec:
           emptyDir: {}
         - name: tls-certs
           secret:
-            secretName: agent-redirector-tlsa
+            secretName: agent-redirector-tls
         - name: zarf-state
           secret:
             secretName: zarf-state
