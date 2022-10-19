@@ -4,6 +4,10 @@ metadata:
   description: Pull development dependencies for a project across an airgap.
   architecture: amd64
 
+constants:
+  - name: PUBLISHER_IMAGE
+    value: "yrrepnoj/package-publisher:0.0.18"
+
 variables:
   - name: TLS_KEY
     description: "The private key to use to establish a TLS connection between the redirector and the client"
@@ -32,7 +36,7 @@ components:
           - manifest.yaml
     images:
       - alpine:3.15
-      - yrrepnoj/package-publisher:0.0.17
+      - yrrepnoj/package-publisher:0.0.18
     dataInjections:
       - source: packages
         target:

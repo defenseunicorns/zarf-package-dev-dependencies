@@ -35,7 +35,7 @@ spec:
               name: packages
       containers:
         - name: data-injection
-          image: yrrepnoj/package-publisher:0.0.13
+          image: "###ZARF_CONST_PUBLISHER_IMAGE###"
           resources:
             requests:
               memory: "256Mi"
@@ -56,14 +56,14 @@ spec:
             initialDelaySeconds: 10
             periodSeconds: 15
         - name: forever-container
-          image: yrrepnoj/package-publisher:0.0.17
+          image: "###ZARF_CONST_PUBLISHER_IMAGE###"
           resources:
             requests:
-              memory: "16Mi"
-              cpu: "50m"
-            limits:
-              memory: "64Mi"
+              memory: "256Mi"
               cpu: "100m"
+            limits:
+              memory: "1Gi"
+              cpu: "500m"
           args: ["./forever.sh"]
       volumes:
         - name: packages
