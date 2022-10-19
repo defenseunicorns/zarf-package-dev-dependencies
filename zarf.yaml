@@ -4,53 +4,18 @@ metadata:
   description: Pull development dependencies for a project across an airgap.
   architecture: amd64
 
-constants:
-  - name: PUBLISHER_IMAGE
-    value: "yrrepnoj/package-publisher:0.0.18"
-
-variables:
-  - name: TLS_KEY
-    description: "The private key to use to establish a TLS connection between the redirector and the client"
-  - name: TLS_CRT
-    description: "The certificate to use to establish a TLS connection between the redirector and the client"
-  - name: TLS_CA
-    description: "The certificate authority to use to establish a TLS connection between the redirector and the client"
-
 components:
   - name: zarf-redirector
     required: true
     import:
       path: zarf-redirector
+  
+  - name: upload-packages
+    required: true
+    import:
+      path: zarf-uploader
 
   - name: self
     required: true
     repos:
       - https://github.com/defenseunicorns/zarf-package-dev-dependencies.git
-
-  - name: upload-packages
-    required: true
-    manifests:
-      - name: example-package-registry
-        namespace: zarf
-        files:
-          - manifest.yaml
-    images:
-      - alpine:3.15
-      - yrrepnoj/package-publisher:0.0.18
-    dataInjections:
-      - source: packages
-        target:
-          namespace: zarf
-          selector: app=package-registry
-          container: data-loader
-          path: /packages
-        compress: true
-    scripts:
-      prepare:
-        - |
-          cd packages/pypi
-          curl -O https://files.pythonhosted.org/packages/0c/83/78ae18fffc185d0d57097610d5a97473ef11dbdca95f16739ee96b158087/numpy-1.23.4-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl \
-               -O https://files.pythonhosted.org/packages/a2/bb/33c637f9d284a8b314aee0a6fc2c2ef243d9145e9480f910f4eca54e6887/pandas-1.5.0-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
-        - |
-          cd packages/npm
-          npm pack lodash

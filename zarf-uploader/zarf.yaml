@@ -1,0 +1,47 @@
+kind: ZarfPackageConfig
+metadata:
+  name: upload-dependencies
+  description: Upload development dependencies for a project in an airgap.
+  architecture: amd64
+
+###
+# Note! This package depends on the zarf-redirector.  If that is not in cluster already, this will not work!
+###
+
+constants:
+  - name: PUBLISHER_IMAGE
+    value: "yrrepnoj/package-publisher:0.0.18"
+
+components:
+  - name: upload-packages
+    required: true
+    manifests:
+      - name: upload-packages
+        namespace: zarf
+        files:
+          - manifests/deployment.yaml
+          - manifests/upload-job.yaml
+    images:
+      - alpine:3.15
+      - yrrepnoj/package-publisher:0.0.18
+    dataInjections:
+      # TODO: (@WSTARR) We currently have to specify a subdirectory that is not real for us in this package
+      - source: zarf-uploader/packages
+        target:
+          namespace: zarf
+          selector: app=package-registry-upload
+          container: package-data-loader
+          path: /packages
+        compress: true
+    scripts:
+      prepare:
+        # TODO: (@WSTARR) We currently have to cd into a subdirectory that is not real for us in this package
+        - |
+          cd zarf-uploader/packages/pypi
+          curl -O https://files.pythonhosted.org/packages/0c/83/78ae18fffc185d0d57097610d5a97473ef11dbdca95f16739ee96b158087/numpy-1.23.4-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl \
+               -O https://files.pythonhosted.org/packages/92/49/127e40f3f468a9bbce1fe69e97d0f0db524621960e0adc51a977298eb49c/numpy-1.23.4-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl \
+               -O https://files.pythonhosted.org/packages/a2/bb/33c637f9d284a8b314aee0a6fc2c2ef243d9145e9480f910f4eca54e6887/pandas-1.5.0-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl \
+               -O https://files.pythonhosted.org/packages/d0/83/944ebe877e40b1ac9c47b4ea827f9358f10640ec0523e0b54cebf3d39d84/pandas-1.5.0-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
+        - |
+          cd zarf-uploader/packages/npm
+          npm pack lodash

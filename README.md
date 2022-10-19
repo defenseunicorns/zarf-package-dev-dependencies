@@ -8,9 +8,19 @@ To create this, copy `zarf-config.example.toml` to `zarf-config.toml` and run th
 
 ```shell
 openssl req -newkey rsa:2048 -nodes -keyout tls.key -x509 -days 365 -out tls.crt # Common Name MUST be github.com
-# cat tls.ca | base64 # set tls_ca to this value (removing new lines)
-cat tls.crt | base64 # set tls_crt to this value (removing new lines)
-cat tls.key | base64 # set tls_key to this value (removing new lines)
+# cat tls.ca | base64 # set tls_ca to this value in zarf-redirector/zarf.yaml (removing new lines)
+cat tls.crt | base64 # set tls_crt to this value in zarf-redirector/zarf.yaml (removing new lines)
+cat tls.key | base64 # set tls_key to this value in zarf-redirector/zarf.yaml (removing new lines)
 ```
 
-> *NOTE* this also currently requires the following line in the coredns configmap: `rewrite name github.com agent-redirector.zarf.svc.cluster.local`
+> *NOTE* this also currently requires the following line in the kubesystem/coredns configmap: `rewrite name github.com agent-redirector.zarf.svc.cluster.local`
+
+# building the docker container
+
+To locally build the docker container in this repo, run: 
+
+```shell
+docker build .
+```
+
+π

@@ -1,21 +1,23 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: batch/v1
+kind: Job
 metadata:
-  name: package-registry
+  name: package-registry-upload
   namespace: zarf
   labels:
-    app: package-registry
+    app: package-registry-upload
 spec:
-  selector:
-    matchLabels:
-      app: package-registry
+  backoffLimit: 6
+  completions: 1
+  parallelism: 1
   template:
     metadata:
       labels:
-        app: package-registry
+        app: package-registry-upload
     spec:
+      imagePullSecrets:
+        - name: private-registry
       initContainers:
-        - name: data-loader
+        - name: package-data-loader
           image: alpine:3.15
           command:
             [
@@ -34,7 +36,7 @@ spec:
             - mountPath: /packages
               name: packages
       containers:
-        - name: data-injection
+        - name: package-data-injection
           image: "###ZARF_CONST_PUBLISHER_IMAGE###"
           resources:
             requests:
@@ -55,16 +57,7 @@ spec:
                 - "/packages/###ZARF_DATA_INJECTON_MARKER###"
             initialDelaySeconds: 10
             periodSeconds: 15
-        - name: forever-container
-          image: "###ZARF_CONST_PUBLISHER_IMAGE###"
-          resources:
-            requests:
-              memory: "256Mi"
-              cpu: "100m"
-            limits:
-              memory: "1Gi"
-              cpu: "500m"
-          args: ["./forever.sh"]
+      restartPolicy: OnFailure
       volumes:
         - name: packages
           emptyDir: {}

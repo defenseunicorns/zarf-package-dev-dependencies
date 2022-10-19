@@ -5,13 +5,21 @@ metadata:
 
 constants:
   - name: AGENT_IMAGE
-    value: "zarfdev/agent:17c737f421b6b4562b7656aed707b54afa89b10b"
+    value: "zarfdev/agent:14ef3b8d4ca3fbcb96dfa699f64cb1b57dac6cab"
+
+variables:
+  - name: TLS_KEY
+    description: "The private key to use to establish a TLS connection between the redirector and the client"
+  - name: TLS_CRT
+    description: "The certificate to use to establish a TLS connection between the redirector and the client"
+  - name: TLS_CA
+    description: "The certificate authority to use to establish a TLS connection between the redirector and the client"
 
 components:
   - name: zarf-redirector
     required: true
     images:
-      - "zarfdev/agent:17c737f421b6b4562b7656aed707b54afa89b10b"
+      - "zarfdev/agent:14ef3b8d4ca3fbcb96dfa699f64cb1b57dac6cab"
       - "bitnami/kubectl:1.24.3"
     manifests:
       - name: zarf-redirector

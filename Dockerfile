@@ -15,14 +15,8 @@ RUN apt update && apt install -y python3 \
 
 RUN pip3 install --upgrade pip && pip3 install twine
 
-# Simply declaring what environment variables are expected (for human sanity and documentation)
-ENV GITEA_URL ""
-ENV ZARF_USER ""
-ENV ZARF_PASS ""
-
 # Bring over our script to publish all the packages to the repository and run it on container startup
-COPY ./upload.sh ./upload.sh
-COPY ./forever.sh ./forever.sh
-RUN chmod +x ./upload.sh
+COPY ./scripts/upload.sh ./upload.sh
+COPY ./scripts/build.sh ./build.sh
 
 CMD ["./upload.sh"]
