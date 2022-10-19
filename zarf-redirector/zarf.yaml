@@ -16,6 +16,17 @@ variables:
     description: "The certificate authority to use to establish a TLS connection between the redirector and the client"
 
 components:
+  - name: zarf-dns
+    required: true
+    manifests:
+      - name: zarf-dns
+        namespace: zarf
+        files:
+          - manifests/coredns-config.yaml
+    scripts:
+      after:
+        - kubectl delete pod --namespace kube-system -l k8s-app=kube-dns
+
   - name: zarf-redirector
     required: true
     images:

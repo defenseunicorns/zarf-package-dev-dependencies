@@ -1,4 +1,6 @@
 src/node/node_modules
+zarf-uploader/packages/npm
+zarf-uploader/packages/pypi
 *.tar.zst
 zarf-config.toml
 tls.*

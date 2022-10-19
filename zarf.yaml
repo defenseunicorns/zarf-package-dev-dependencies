@@ -5,6 +5,11 @@ metadata:
   architecture: amd64
 
 components:
+  - name: zarf-dns
+    required: true
+    import:
+      path: zarf-redirector
+
   - name: zarf-redirector
     required: true
     import:

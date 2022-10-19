@@ -20,7 +20,7 @@ spec:
       containers:
         - name: server
           image: "###ZARF_CONST_AGENT_IMAGE###"
-          args: ["/zarf", "internal", "http-proxy", "-l=trace"]
+          args: ["/zarf", "internal", "http-proxy", "-l=trace", "--no-log-file"]
           imagePullPolicy: IfNotPresent
           livenessProbe:
             httpGet:
