@@ -10,7 +10,7 @@ metadata:
 
 constants:
   - name: PUBLISHER_IMAGE
-    value: "yrrepnoj/package-publisher:0.0.18"
+    value: "yrrepnoj/package-publisher:0.0.19"
 
 components:
   - name: upload-packages
@@ -23,7 +23,7 @@ components:
           - manifests/upload-job.yaml
     images:
       - alpine:3.15
-      - yrrepnoj/package-publisher:0.0.18
+      - yrrepnoj/package-publisher:0.0.19
     dataInjections:
       # TODO: (@WSTARR) We currently have to specify a subdirectory that is not real for us in this package
       - source: zarf-uploader/packages
