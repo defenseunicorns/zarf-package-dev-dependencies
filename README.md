@@ -13,8 +13,6 @@ cat tls.crt | base64 # set tls_crt to this value in zarf-redirector/zarf.yaml (r
 cat tls.key | base64 # set tls_key to this value in zarf-redirector/zarf.yaml (removing new lines)
 ```
 
-> *NOTE* this also currently requires the following line in the kubesystem/coredns configmap: `rewrite name github.com agent-redirector.zarf.svc.cluster.local`
-
 # building the docker container
 
 To locally build the docker container in this repo, run: 
