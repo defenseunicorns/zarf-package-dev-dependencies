@@ -8,9 +8,19 @@ To create this, copy `zarf-config.example.toml` to `zarf-config.toml` and run th
 
 ```shell
 openssl req -newkey rsa:2048 -nodes -keyout tls.key -x509 -days 365 -out tls.crt # Common Name MUST be github.com
-# cat tls.ca | base64 # set tls_ca to this value in zarf-redirector/zarf.yaml (removing new lines)
-cat tls.crt | base64 # set tls_crt to this value in zarf-redirector/zarf.yaml (removing new lines)
-cat tls.key | base64 # set tls_key to this value in zarf-redirector/zarf.yaml (removing new lines)
+# cat tls.ca | base64 # set tls_ca to this value in zarf-config.toml under [package.deploy.set] (removing new lines)
+cat tls.crt | base64 # set tls_crt to this value in zarf-config.toml under [package.deploy.set] (removing new lines)
+cat tls.key | base64 # set tls_key to this value in zarf-config.toml under [package.deploy.set] (removing new lines)
+```
+
+You will also need the following binaries locally before creating this package:
+
+```shell
+zarf
+openssl
+curl
+npm
+kubectl
 ```
 
 # building the docker container

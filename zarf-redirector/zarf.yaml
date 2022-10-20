@@ -5,7 +5,7 @@ metadata:
 
 constants:
   - name: AGENT_IMAGE
-    value: "zarfdev/agent:14ef3b8d4ca3fbcb96dfa699f64cb1b57dac6cab"
+    value: "zarfdev/agent:937656803d438ed705257f8d9e5ce514bcddc969"
 
 variables:
   - name: TLS_KEY
@@ -30,7 +30,7 @@ components:
   - name: zarf-redirector
     required: true
     images:
-      - "zarfdev/agent:14ef3b8d4ca3fbcb96dfa699f64cb1b57dac6cab"
+      - "zarfdev/agent:937656803d438ed705257f8d9e5ce514bcddc969"
       - "bitnami/kubectl:1.24.3"
     manifests:
       - name: zarf-redirector
