@@ -1,0 +1,15 @@
+name: images
+description: "Create package uploader image"
+
+runs:
+  using: composite
+  steps:
+    - uses: docker/login-action@v2
+      with:
+        registry: ghcr.io
+        username: dummy
+        password: ${{ github.token }}
+
+    - run: |
+        docker buildx build --push --platform linux/amd64 --tag ghcr.io/defenseunicorns/zarf-package/dev-dependencies:$GITHUB_SHA .
+      shell: bash
