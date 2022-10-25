@@ -10,7 +10,7 @@ metadata:
 
 constants:
   - name: PUBLISHER_IMAGE
-    value: "ghcr.io/defenseunicorns/zarf-package/dev-dependencies:2f56b5e33e2460958ff3a3155695404a460bd137"
+    value: "ghcr.io/defenseunicorns/zarf-package/dev-dependencies:4865a31b7dfd36a7d69a8cc4875823289361a9fe "
 
 components:
   - name: upload-packages
@@ -22,7 +22,7 @@ components:
         version: 1.0.0
     images:
       - alpine:3.15
-      - ghcr.io/defenseunicorns/zarf-package/dev-dependencies:2f56b5e33e2460958ff3a3155695404a460bd137
+      - ghcr.io/defenseunicorns/zarf-package/dev-dependencies:4865a31b7dfd36a7d69a8cc4875823289361a9fe 
     dataInjections:
       # TODO: (@WSTARR) We currently have to specify a subdirectory that is not real for us in this package
       - source: zarf-uploader/packages
