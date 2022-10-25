@@ -7,6 +7,7 @@ RUN apt update && apt install -y python3 \
                         jq \
                         curl \
                         git \
+                        bash \
                         ca-certificates
 
 RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash
