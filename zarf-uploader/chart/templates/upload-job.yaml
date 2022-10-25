@@ -46,11 +46,14 @@ spec:
             limits:
               memory: "1Gi"
               cpu: "500m"
+          args: ["./scripts/upload.sh"]
           volumeMounts:
             - name: tls-certs
               mountPath: /usr/local/share/ca-certificates
             - name: packages
               mountPath: /packages
+            - name: uploader-scripts
+              mountPath: /scripts
           readinessProbe:
             exec:
               command:
@@ -68,3 +71,7 @@ spec:
             items:
               - key: tls.crt
                 path: tls.crt
+        - name: uploader-scripts
+          configMap:
+            name: uploader-scripts
+            defaultMode: 0744

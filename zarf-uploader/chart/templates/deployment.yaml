@@ -24,10 +24,12 @@ spec:
             limits:
               memory: "1Gi"
               cpu: "500m"
-          args: ["./build.sh"]
+          args: ["./scripts/build.sh"]
           volumeMounts:
             - name: tls-certs
               mountPath: /usr/local/share/ca-certificates
+            - name: uploader-scripts
+              mountPath: /scripts
       volumes:
         - name: tls-certs
           secret:
@@ -35,3 +37,7 @@ spec:
             items:
               - key: tls.crt
                 path: tls.crt
+        - name: uploader-scripts
+          configMap:
+            name: uploader-scripts
+            defaultMode: 0744
