@@ -42,6 +42,18 @@ components:
                -O https://files.pythonhosted.org/packages/a2/bb/33c637f9d284a8b314aee0a6fc2c2ef243d9145e9480f910f4eca54e6887/pandas-1.5.0-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl \
                -O https://files.pythonhosted.org/packages/d0/83/944ebe877e40b1ac9c47b4ea827f9358f10640ec0523e0b54cebf3d39d84/pandas-1.5.0-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
         - |
-          cd zarf-uploader/packages/npm
-          npm pack lodash
-          npm pack @netflix/nerror
+          cd src/node/
+          npm install
+          PACKAGES="$(cat package-lock.json | jq -r '.packages | .[] | .resolved')"
+          cd ../../zarf-uploader/packages/npm
+          IFS='
+          '
+          set -f
+          for LINE in $PACKAGES; do
+              if [ ! "${LINE}" = "null" ]; then
+                curl -O "${LINE}"
+              fi
+          done
+          set +f
+          unset IFS
+      showOutput: true
