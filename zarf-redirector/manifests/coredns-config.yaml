@@ -15,3 +15,23 @@ data:
         fallthrough in-addr.arpa ip6.arpa
       }
     }
+    pypi.org:53 {
+      log
+      errors
+      rewrite name pypi.org agent-redirector.zarf.svc.cluster.local
+
+      kubernetes cluster.local in-addr.arpa ip6.arpa {
+        pods insecure
+        fallthrough in-addr.arpa ip6.arpa
+      }
+    }
+    registry.npmjs.org:53 {
+      log
+      errors
+      rewrite name registry.npmjs.org agent-redirector.zarf.svc.cluster.local
+
+      kubernetes cluster.local in-addr.arpa ip6.arpa {
+        pods insecure
+        fallthrough in-addr.arpa ip6.arpa
+      }
+    }

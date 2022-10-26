@@ -36,11 +36,7 @@ components:
       prepare:
         # TODO: (@WSTARR) We currently have to cd into a subdirectory that is not real for us in this package
         - |
-          cd zarf-uploader/packages/pypi
-          curl -O https://files.pythonhosted.org/packages/0c/83/78ae18fffc185d0d57097610d5a97473ef11dbdca95f16739ee96b158087/numpy-1.23.4-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl \
-               -O https://files.pythonhosted.org/packages/92/49/127e40f3f468a9bbce1fe69e97d0f0db524621960e0adc51a977298eb49c/numpy-1.23.4-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl \
-               -O https://files.pythonhosted.org/packages/a2/bb/33c637f9d284a8b314aee0a6fc2c2ef243d9145e9480f910f4eca54e6887/pandas-1.5.0-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl \
-               -O https://files.pythonhosted.org/packages/d0/83/944ebe877e40b1ac9c47b4ea827f9358f10640ec0523e0b54cebf3d39d84/pandas-1.5.0-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
+          pip download --only-binary :all: --dest zarf-uploader/packages/pypi --no-cache -r src/python/requirements.txt
         - |
           cd src/node/
           npm install
@@ -56,7 +52,9 @@ components:
                   LINE="$CURRENT_REGISTRY$WITHOUT_UPSTREAM"
               fi
               if [ ! "${LINE}" = "null" ]; then
-                  curl -O "${LINE}"
+                  echo -e "Retreiving ${LINE}"
+                  FILENAME="$(echo ${LINE} | sha1sum | head -c 40).tgz"
+                  curl -s -o "${FILENAME}" "${LINE}"
               fi
           done
           set +f

@@ -2,15 +2,14 @@
 
 An example / experiment on how to include development dependencies inside of a Zarf package.
 
-To deploy this package you must specify a TLS certificate and key that matches the upstream web hosts used by this package (github.com)
+To deploy this package you must specify a TLS certificate and key that matches the upstream web hosts used by this package.
 
 To create this, copy `zarf-config.example.toml` to `zarf-config.toml` and run the following commands:
 
 ```shell
-openssl req -newkey rsa:2048 -nodes -keyout tls.key -x509 -days 365 -out tls.crt # Common Name MUST be github.com
-# cat tls.ca | base64 # set tls_ca to this value in zarf-config.toml under [package.deploy.set] (removing new lines)
-cat tls.crt | base64 # set tls_crt to this value in zarf-config.toml under [package.deploy.set] (removing new lines)
-cat tls.key | base64 # set tls_key to this value in zarf-config.toml under [package.deploy.set] (removing new lines)
+openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout tls.key -out tls.crt -config tls-req.conf -sha256
+cat tls.crt | base64 | tr -d '\n' # set tls_crt to this value in zarf-config.toml under [package.deploy.set]
+cat tls.key | base64 | tr -d '\n' # set tls_key to this value in zarf-config.toml under [package.deploy.set]
 ```
 
 You will also need the following binaries locally before creating this package:

@@ -11,7 +11,7 @@ export TWINE_CERT=/etc/ssl/certs/ca-certificates.crt
 #####
 # Upload all the PyPI packages
 #####
-python3 -m twine upload --repository-url=https://github.com/uploading/a/pypi \
+python3 -m twine upload --repository-url=https://pypi.org/ \
                        -u=redirector -p=replaces \
                        --skip-existing \
                        --verbose \
@@ -19,9 +19,8 @@ python3 -m twine upload --repository-url=https://github.com/uploading/a/pypi \
 
 # Set the npm credentials
 npm config set cafile /etc/ssl/certs/ca-certificates.crt
-npm config set registry https://github.com/uploading/a/npm/
-NPM_TOKEN="62db174df522aab21078c1f67c228f52e9ce24f7"
-npm config set -- "//github.com/uploading/a/npm/:_authToken" "$NPM_TOKEN"
+NPM_TOKEN="cabdeadbeefdeaffeeddabbadfaddadfedbedfeb"
+npm config set -- "//registry.npmjs.org/:_authToken" "$NPM_TOKEN"
 
 # Publish the npm package
 for NPM_PACKAGE in /packages/npm/*; do
