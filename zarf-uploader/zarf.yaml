@@ -44,3 +44,4 @@ components:
         - |
           cd zarf-uploader/packages/npm
           npm pack lodash
+          npm pack @netflix/nerror

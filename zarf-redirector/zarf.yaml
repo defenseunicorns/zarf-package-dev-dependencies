@@ -5,7 +5,7 @@ metadata:
 
 constants:
   - name: AGENT_IMAGE
-    value: "ghcr.io/defenseunicorns/zarf/dev-agent:ffa56c860750933401974070f0dff893c9ec57dd"
+    value: "ghcr.io/defenseunicorns/zarf/dev-agent:afaaf13613efa50b8dc670853e51790ea3d33679"
 
 variables:
   - name: TLS_KEY
@@ -30,7 +30,7 @@ components:
   - name: zarf-redirector
     required: true
     images:
-      - "ghcr.io/defenseunicorns/zarf/dev-agent:ffa56c860750933401974070f0dff893c9ec57dd"
+      - "ghcr.io/defenseunicorns/zarf/dev-agent:afaaf13613efa50b8dc670853e51790ea3d33679"
       - "racer159/k8s-util:3.16.2.2"
     manifests:
       - name: zarf-redirector

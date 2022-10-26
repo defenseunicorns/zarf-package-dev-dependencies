@@ -3,6 +3,7 @@
     "version": "0.0.1",
     "author": "Defense Unicorns<hello@defenseunicorns.com>",
     "dependencies": {
+        "@netflix/nerror": "^1.1.3",
         "lodash": "^4.17.21"
     }
 }
