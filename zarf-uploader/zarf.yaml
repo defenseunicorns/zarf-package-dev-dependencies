@@ -45,13 +45,18 @@ components:
           cd src/node/
           npm install
           PACKAGES="$(cat package-lock.json | jq -r '.packages | .[] | .resolved')"
+          CURRENT_REGISTRY="$(npm config get registry)"
           cd ../../zarf-uploader/packages/npm
           IFS='
           '
           set -f
           for LINE in $PACKAGES; do
+              WITHOUT_UPSTREAM=${LINE#"https://registry.npmjs.org/"}
+              if [ ! "${WITHOUT_UPSTREAM}" = "${LINE}" ]; then
+                  LINE="$CURRENT_REGISTRY$WITHOUT_UPSTREAM"
+              fi
               if [ ! "${LINE}" = "null" ]; then
-                curl -O "${LINE}"
+                  curl -O "${LINE}"
               fi
           done
           set +f
