@@ -1,4 +1,5 @@
 src/node/node_modules
+zarf-uploader/packages/generic
 zarf-uploader/packages/npm
 zarf-uploader/packages/pypi
 *.tar.zst
