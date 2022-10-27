@@ -35,3 +35,13 @@ data:
         fallthrough in-addr.arpa ip6.arpa
       }
     }
+    dl.k8s.io:53 {
+      log
+      errors
+      rewrite name dl.k8s.io agent-redirector.zarf.svc.cluster.local
+
+      kubernetes cluster.local in-addr.arpa ip6.arpa {
+        pods insecure
+        fallthrough in-addr.arpa ip6.arpa
+      }
+    }
