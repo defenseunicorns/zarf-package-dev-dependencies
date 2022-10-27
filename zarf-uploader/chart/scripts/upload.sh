@@ -31,7 +31,15 @@ done
 # Upload all the generic packages
 #####
 pushd /packages/generic
-for FILE in *; do 
-    curl -X PUT --upload-file $FILE https://github.com/uploading/a/generic/test_packcages/${FILE}/${FILE}
+PACKAGES="$(cat manifest.json | jq -r 'keys[]')"
+IFS='
+'
+set -f
+for LINE in $PACKAGES; do
+    URL="$(cat manifest.json | jq --arg package $LINE -r '.[$package]')"
+    echo -e "Uploading ${URL}"
+    curl -X PUT --upload-file "${LINE}" "${URL}"
 done
+set +f
+unset IFS
 popd
