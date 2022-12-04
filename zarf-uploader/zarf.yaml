@@ -40,11 +40,11 @@ components:
           echo "{}" > manifest.json
           RELEASE=$(curl -L -s https://dl.k8s.io/release/stable.txt)
           
-          RELEASEFILE=$(echo "https://dl.k8s.io/release/stable.txt" | sha1sum | head -c 40)
+          RELEASEFILE=$(echo "https://dl.k8s.io/release/stable.txt" | sed -e "s/[^A-Za-z0-9._-]/_/g")
           echo "$(jq --arg file "$RELEASEFILE" '.[$file] = "https://dl.k8s.io/release/stable.txt"' manifest.json)" > manifest.json
-          KUBECTLBIN=$(echo "https://dl.k8s.io/release/$RELEASE/bin/linux/amd64/kubectl" | sha1sum | head -c 40)
+          KUBECTLBIN=$(echo "https://dl.k8s.io/release/$RELEASE/bin/linux/amd64/kubectl" | sed -e "s/[^A-Za-z0-9._-]/_/g")
           echo "$(jq --arg file "$KUBECTLBIN" --arg release $RELEASE '.[$file] ="https://dl.k8s.io/release/" + $release + "/bin/linux/amd64/kubectl"' manifest.json)" > manifest.json
-          KUBECTLSHA=$(echo "https://dl.k8s.io/$RELEASE/bin/linux/amd64/kubectl.sha256" | sha1sum | head -c 40)
+          KUBECTLSHA=$(echo "https://dl.k8s.io/$RELEASE/bin/linux/amd64/kubectl.sha256" | sed -e "s/[^A-Za-z0-9._-]/_/g")
           echo "$(jq --arg file "$KUBECTLSHA" --arg release $RELEASE '.[$file] = "https://dl.k8s.io/" + $release + "/bin/linux/amd64/kubectl.sha256"' manifest.json)" > manifest.json
 
           PACKAGES="$(cat manifest.json | jq -r 'keys[]')"

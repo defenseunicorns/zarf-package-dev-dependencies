@@ -5,6 +5,11 @@ metadata:
   architecture: amd64
 
 components:
+  - name: self
+    required: true
+    repos:
+      - https://github.com/defenseunicorns/zarf-package-dev-dependencies.git
+
   - name: zarf-dns
     required: true
     import:
@@ -14,13 +19,9 @@ components:
     required: true
     import:
       path: zarf-redirector
-  
+
+  # The uploader is last since it is what uploads the `.done.txt` for testing  
   - name: upload-packages
     required: true
     import:
       path: zarf-uploader
-
-  - name: self
-    required: true
-    repos:
-      - https://github.com/defenseunicorns/zarf-package-dev-dependencies.git

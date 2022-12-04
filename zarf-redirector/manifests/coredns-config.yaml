@@ -5,41 +5,14 @@ metadata:
   namespace: kube-system
 data:
   ZarfRedirector.server: |
-    github.com:53 {
+    dev.local:53 {
       log
       errors
-      rewrite name github.com agent-redirector.zarf.svc.cluster.local
-
-      kubernetes cluster.local in-addr.arpa ip6.arpa {
-        pods insecure
-        fallthrough in-addr.arpa ip6.arpa
-      }
-    }
-    pypi.org:53 {
-      log
-      errors
-      rewrite name pypi.org agent-redirector.zarf.svc.cluster.local
-
-      kubernetes cluster.local in-addr.arpa ip6.arpa {
-        pods insecure
-        fallthrough in-addr.arpa ip6.arpa
-      }
-    }
-    registry.npmjs.org:53 {
-      log
-      errors
-      rewrite name registry.npmjs.org agent-redirector.zarf.svc.cluster.local
-
-      kubernetes cluster.local in-addr.arpa ip6.arpa {
-        pods insecure
-        fallthrough in-addr.arpa ip6.arpa
-      }
-    }
-    dl.k8s.io:53 {
-      log
-      errors
-      rewrite name dl.k8s.io agent-redirector.zarf.svc.cluster.local
-
+      rewrite name github.com.dev.local agent-redirector.zarf.svc.cluster.local
+      rewrite name pypi.org.dev.local agent-redirector.zarf.svc.cluster.local
+      rewrite name registry.npmjs.org.dev.local agent-redirector.zarf.svc.cluster.local
+      rewrite name dl.k8s.io.dev.local agent-redirector.zarf.svc.cluster.local
+  
       kubernetes cluster.local in-addr.arpa ip6.arpa {
         pods insecure
         fallthrough in-addr.arpa ip6.arpa

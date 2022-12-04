@@ -30,12 +30,24 @@ spec:
               mountPath: /usr/local/share/ca-certificates
             - name: uploader-scripts
               mountPath: /scripts
+      dnsPolicy: None
+      dnsConfig:
+        nameservers:
+          - 10.43.0.10
+        searches:
+          - dev.local
+          - zarf.svc.cluster.local
+          - svc.cluster.local
+          - cluster.local
+        options:
+          - name: ndots
+            value: "5"
       volumes:
         - name: tls-certs
           secret:
             secretName: agent-redirector-tls
             items:
-              - key: tls.crt
+              - key: tls.ca
                 path: tls.crt
         - name: uploader-scripts
           configMap:

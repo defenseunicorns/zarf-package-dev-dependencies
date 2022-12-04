@@ -19,7 +19,7 @@ python3 -m twine upload --repository-url=https://pypi.org/ \
 
 # Set the npm credentials
 npm config set cafile /etc/ssl/certs/ca-certificates.crt
-NPM_TOKEN="cabdeadbeefdeaffeeddabbadfaddadfedbedfeb"
+NPM_TOKEN="cabdeadbeefdeaffeeddabbadfaddadfedbedfeb" # This token is fake, it is used so NPM doesn't complain
 npm config set -- "//registry.npmjs.org/:_authToken" "$NPM_TOKEN"
 
 # Publish the npm package
@@ -42,4 +42,8 @@ for LINE in $PACKAGES; do
 done
 set +f
 unset IFS
+
+# Mark package upload as completed
+curl -X PUT --upload-file ".done.txt" "https://github.com/.done.txt"
+
 popd

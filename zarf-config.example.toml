@@ -3,3 +3,5 @@
 tls_key = ''
 # base64 encoded tls certificate (matching upstream domains)
 tls_crt = ''
+# base64 encoded tls certificate authority (matching upstream domains)
+tls_ca = ''

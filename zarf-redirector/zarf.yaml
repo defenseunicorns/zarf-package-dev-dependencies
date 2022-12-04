@@ -12,6 +12,8 @@ variables:
     description: "The private key to use to establish a TLS connection between the redirector and the client"
   - name: TLS_CRT
     description: "The certificate to use to establish a TLS connection between the redirector and the client"
+  - name: TLS_CA
+    description: "The certificate authority to use to establish a TLS connection between the redirector and the client"
 
 components:
   - name: zarf-dns
