@@ -4,6 +4,11 @@ on:
   push:
     branches: ["main"]
 
+# Abort prior jobs in the same workflow / PR
+concurrency:
+  group: build-images-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build:
     runs-on: ubuntu-latest

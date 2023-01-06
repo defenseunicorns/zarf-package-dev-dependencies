@@ -1,0 +1,43 @@
+name: Test Zarf Create/Deploy
+
+on:
+  push:
+    branches: ["main"]
+
+# Abort prior jobs in the same workflow / PR
+concurrency:
+  group: e2e-test-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install release version of Zarf
+        uses: defenseunicorns/setup-zarf@main
+        with:
+          download-init-package: true
+
+      - name: Create the package
+        run: |
+          CI=true make build
+
+      - name: Initialize the cluster
+        # NOTE: "PATH=$PATH" preserves the default user $PATH. This is needed to maintain the version of zarf installed
+        #       in a previous step. This test run will the current release to create a K3s cluster.
+        # chown the logs since they were originally created as root
+        run: |
+          sudo env "PATH=$PATH" CI=true zarf init --components k3s,git-server --confirm
+          sudo chown $USER /tmp/zarf-*.log
+
+      - name: Deploy the package
+        run: |
+          sudo env "PATH=$PATH" CI=true make test-deploy
+          sudo chown $USER /tmp/zarf-*.log
+
+      - name: Test the package
+        run: |
+          sudo ./test/run.sh
