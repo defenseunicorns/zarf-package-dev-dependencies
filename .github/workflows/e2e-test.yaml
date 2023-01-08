@@ -43,4 +43,4 @@ jobs:
 
       - name: Test the package
         run: |
-          sudo ./test/run.sh
+          sudo env "PATH=$PATH" ./test/run.sh
