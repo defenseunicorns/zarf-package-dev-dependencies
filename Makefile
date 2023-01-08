@@ -1,5 +1,5 @@
 build: ## Create the dev-dependencies zarf package
-	zarf package create .
+	zarf package create . --confirm
 
 clean: ## Cleanup downloaded files and packages
 	rm zarf-uploader/packages/generic/*

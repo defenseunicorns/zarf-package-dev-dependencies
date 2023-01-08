@@ -29,7 +29,7 @@ popd
 # Test generic registries
 pushd python
 
-pip install -r requirements.txt
+REQUESTS_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt pip install -r requirements.txt
 ./index.py
 
 popd
