@@ -1,5 +1,7 @@
 # zarf-package-dev-dependencies
 
+![CI Status](https://github.com/defenseunicorns/zarf-package-dev-dependencies/actions/workflows/e2e-test.yml/badge.svg)
+
 An example on how to include development dependencies inside of a Zarf package for serving in an airgap.
 
 ## creating the package

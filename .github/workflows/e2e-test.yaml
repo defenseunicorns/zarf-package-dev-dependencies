@@ -3,6 +3,9 @@ name: Test Zarf Create/Deploy
 on:
   push:
     branches: ["main"]
+  schedule:
+    # * is a special character in YAML so you have to quote this string
+    - cron:  '0 0 * * 0'
 
 # Abort prior jobs in the same workflow / PR
 concurrency:
