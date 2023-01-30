@@ -5,7 +5,7 @@ metadata:
 
 constants:
   - name: AGENT_IMAGE
-    value: "ghcr.io/defenseunicorns/zarf/agent:v0.23.5-62-g4cfab86a"
+    value: "ghcr.io/defenseunicorns/zarf/agent:local"
 
 variables:
   - name: TLS_KEY
@@ -23,14 +23,15 @@ components:
         namespace: zarf
         files:
           - manifests/coredns-config.yaml
-    scripts:
-      after:
-        - kubectl delete pod --namespace kube-system -l k8s-app=kube-dns
+    actions:
+      onDeploy:
+        after:
+          - cmd: kubectl delete pod --namespace kube-system -l k8s-app=kube-dns
 
   - name: zarf-redirector
     required: true
     images:
-      - "ghcr.io/defenseunicorns/zarf/agent:v0.23.5-62-g4cfab86a"
+      - "ghcr.io/defenseunicorns/zarf/agent:local"
     manifests:
       - name: zarf-redirector
         namespace: zarf

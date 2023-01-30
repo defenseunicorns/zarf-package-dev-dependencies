@@ -32,54 +32,54 @@ components:
           container: package-data-loader
           path: /packages
         compress: true
-    scripts:
-      prepare:
+    actions:
+      onCreate:
+        before:
         # TODO: (@WSTARR) We currently have to cd into a subdirectory that is not real for us in this package
-        - |
-          cd zarf-uploader/packages/generic/
-          echo "{}" > manifest.json
-          RELEASE=$(curl -L -s https://dl.k8s.io/release/stable.txt)
-          
-          RELEASEFILE=$(echo "https://dl.k8s.io/release/stable.txt" | sed -e "s/[^A-Za-z0-9._-]/_/g")
-          echo "$(jq --arg file "$RELEASEFILE" '.[$file] = "https://dl.k8s.io/release/stable.txt"' manifest.json)" > manifest.json
-          KUBECTLBIN=$(echo "https://dl.k8s.io/release/$RELEASE/bin/linux/amd64/kubectl" | sed -e "s/[^A-Za-z0-9._-]/_/g")
-          echo "$(jq --arg file "$KUBECTLBIN" --arg release $RELEASE '.[$file] ="https://dl.k8s.io/release/" + $release + "/bin/linux/amd64/kubectl"' manifest.json)" > manifest.json
-          KUBECTLSHA=$(echo "https://dl.k8s.io/$RELEASE/bin/linux/amd64/kubectl.sha256" | sed -e "s/[^A-Za-z0-9._-]/_/g")
-          echo "$(jq --arg file "$KUBECTLSHA" --arg release $RELEASE '.[$file] = "https://dl.k8s.io/" + $release + "/bin/linux/amd64/kubectl.sha256"' manifest.json)" > manifest.json
+          - cmd: |
+              cd zarf-uploader/packages/generic/
+              echo "{}" > manifest.json
+              RELEASE=$(curl -L -s https://dl.k8s.io/release/stable.txt)
+              
+              RELEASEFILE=$(echo "https://dl.k8s.io/release/stable.txt" | sed -e "s/[^A-Za-z0-9._-]/_/g")
+              echo "$(jq --arg file "$RELEASEFILE" '.[$file] = "https://dl.k8s.io/release/stable.txt"' manifest.json)" > manifest.json
+              KUBECTLBIN=$(echo "https://dl.k8s.io/release/$RELEASE/bin/linux/amd64/kubectl" | sed -e "s/[^A-Za-z0-9._-]/_/g")
+              echo "$(jq --arg file "$KUBECTLBIN" --arg release $RELEASE '.[$file] ="https://dl.k8s.io/release/" + $release + "/bin/linux/amd64/kubectl"' manifest.json)" > manifest.json
+              KUBECTLSHA=$(echo "https://dl.k8s.io/$RELEASE/bin/linux/amd64/kubectl.sha256" | sed -e "s/[^A-Za-z0-9._-]/_/g")
+              echo "$(jq --arg file "$KUBECTLSHA" --arg release $RELEASE '.[$file] = "https://dl.k8s.io/" + $release + "/bin/linux/amd64/kubectl.sha256"' manifest.json)" > manifest.json
 
-          PACKAGES="$(cat manifest.json | jq -r 'keys[]')"
-          IFS='
-          '
-          set -f
-          for LINE in $PACKAGES; do
-              URL="$(cat manifest.json | jq --arg package $LINE -r '.[$package]')"
-              echo -e "Retreiving ${URL}"
-              curl -s -L -o "${LINE}" "${URL}"
-          done
-          set +f
-          unset IFS
-        - |
-          pip download --only-binary :all: --dest zarf-uploader/packages/pypi --no-cache -r src/python/requirements.txt
-        - |
-          cd src/node/
-          npm install
-          PACKAGES="$(cat package-lock.json | jq -r '.packages | .[] | .resolved')"
-          CURRENT_REGISTRY="$(npm config get registry)"
-          cd ../../zarf-uploader/packages/npm
-          IFS='
-          '
-          set -f
-          for LINE in $PACKAGES; do
-              WITHOUT_UPSTREAM=${LINE#"https://registry.npmjs.org/"}
-              if [ ! "${WITHOUT_UPSTREAM}" = "${LINE}" ]; then
-                  LINE="$CURRENT_REGISTRY$WITHOUT_UPSTREAM"
-              fi
-              if [ ! "${LINE}" = "null" ]; then
-                  echo -e "Retreiving ${LINE}"
-                  FILENAME="$(echo ${LINE} | sha1sum | head -c 40).tgz"
-                  curl -s -L -o "${FILENAME}" "${LINE}"
-              fi
-          done
-          set +f
-          unset IFS
-      showOutput: true
+              PACKAGES="$(cat manifest.json | jq -r 'keys[]')"
+              IFS='
+              '
+              set -f
+              for LINE in $PACKAGES; do
+                  URL="$(cat manifest.json | jq --arg package $LINE -r '.[$package]')"
+                  echo -e "Retrieving ${URL}"
+                  curl -s -L -o "${LINE}" "${URL}"
+              done
+              set +f
+              unset IFS
+          - cmd: |
+              pip download --only-binary :all: --dest zarf-uploader/packages/pypi --no-cache -r src/python/requirements.txt
+          - cmd: |
+              cd src/node/
+              npm install
+              PACKAGES="$(cat package-lock.json | jq -r '.packages | .[] | .resolved')"
+              CURRENT_REGISTRY="$(npm config get registry)"
+              cd ../../zarf-uploader/packages/npm
+              IFS='
+              '
+              set -f
+              for LINE in $PACKAGES; do
+                  WITHOUT_UPSTREAM=${LINE#"https://registry.npmjs.org/"}
+                  if [ ! "${WITHOUT_UPSTREAM}" = "${LINE}" ]; then
+                      LINE="$CURRENT_REGISTRY$WITHOUT_UPSTREAM"
+                  fi
+                  if [ ! "${LINE}" = "null" ]; then
+                      echo -e "Retrieving ${LINE}"
+                      FILENAME="$(echo ${LINE} | sha1sum | head -c 40).tgz"
+                      curl -s -L -o "${FILENAME}" "${LINE}"
+                  fi
+              done
+              set +f
+              unset IFS
