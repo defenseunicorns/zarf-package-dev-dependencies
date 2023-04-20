@@ -68,7 +68,7 @@ $ zarf package deploy zarf-package-dev-dependencies-amd64.tar.zst
 After deploying the package you can test that it can properly deploy and build the code in the `src` directory by running:
 
 ```shell
-$ ./test/run.sh
+$ make test
 ```
 
 ## building the docker container
