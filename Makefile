@@ -10,10 +10,10 @@ clean: ## Cleanup downloaded files and packages
 test: ## Test an already deployed version of the package
 	./test/run.sh
 
-deploy: ## Deploying the package using existing certificates (req's 'make build' & 'zarf.config.toml')
+deploy: ## Deploy the package using existing certificates (req's 'make build' & 'zarf.config.toml')
 	zarf package deploy zarf-package-dev-dependencies-amd64.tar.zst --confirm
 
-fresh-deploy: ## Deploying the package with fresh certificates
+fresh-deploy: ## Deploy the package with fresh certificates
 	cp zarf-config.example.toml zarf-config.toml
 	$(MAKE) setup-certificates
 	$(MAKE) deploy
