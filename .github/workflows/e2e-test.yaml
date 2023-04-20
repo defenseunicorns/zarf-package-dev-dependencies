@@ -1,6 +1,7 @@
 name: Test Zarf Create/Deploy
 
 on:
+  pull_request:
   push:
     branches: ["main"]
   schedule:
@@ -38,9 +39,9 @@ jobs:
 
       - name: Deploy the package
         run: |
-          sudo env "PATH=$PATH" CI=true make test-deploy
+          sudo env "PATH=$PATH" CI=true make fresh-deploy
           sudo chown $USER /tmp/zarf-*.log
 
       - name: Test the package
         run: |
-          sudo env "PATH=$PATH" ./test/run.sh
+          sudo env "PATH=$PATH" make test
