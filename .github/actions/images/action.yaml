@@ -13,7 +13,3 @@ runs:
     - run: |
         docker buildx build --push --platform linux/amd64 --tag ghcr.io/defenseunicorns/zarf-package/dev-dependencies:$GITHUB_SHA .
       shell: bash
-
-    - run: |
-        docker buildx build --push --platform linux/amd64 --tag ghcr.io/defenseunicorns/zarf-package/dev-deps-util:$GITHUB_SHA -f Dockerfile.util .
-      shell: bash
