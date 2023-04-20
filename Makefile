@@ -10,11 +10,13 @@ clean: ## Cleanup downloaded files and packages
 test: ## Test an already deployed version of the package
 	./test/run.sh
 
-test-deploy: ## Test deploying the package with fresh certificates
+deploy: ## Deploy the package using existing certificates (req's 'make build' & 'zarf.config.toml')
+	zarf package deploy zarf-package-dev-dependencies-amd64.tar.zst --confirm
+
+fresh-deploy: ## Deploy the package with fresh certificates
 	cp zarf-config.example.toml zarf-config.toml
 	$(MAKE) setup-certificates
-	zarf package deploy zarf-package-dev-dependencies-amd64.tar.zst --confirm
-	$(MAKE) test
+	$(MAKE) deploy
 
 setup-certificates: generate-certificates ## Generate tls certificates and add them to the zarf-config.toml
 	sed -i -e "s/tls_key = '.*'/tls_key = '$(shell cat tls.key | base64 | tr -d '\n')'/g" zarf-config.toml
