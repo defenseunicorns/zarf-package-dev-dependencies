@@ -5,7 +5,7 @@ metadata:
 
 constants:
   - name: AGENT_IMAGE
-    value: "ghcr.io/defenseunicorns/zarf/agent:local"
+    value: "ghcr.io/defenseunicorns/zarf/agent:v0.26.0"
 
 variables:
   - name: TLS_KEY
@@ -31,7 +31,7 @@ components:
   - name: zarf-redirector
     required: true
     images:
-      - "ghcr.io/defenseunicorns/zarf/agent:local"
+      - "ghcr.io/defenseunicorns/zarf/agent:v0.26.0"
     manifests:
       - name: zarf-redirector
         namespace: zarf
