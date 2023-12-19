@@ -17,7 +17,7 @@ components:
     required: true
     charts:
       - name: zarf-uploader
-        localPath: zarf-uploader/chart
+        localPath: chart
         namespace: zarf
         version: 1.0.0
     images:
@@ -25,7 +25,7 @@ components:
       - ghcr.io/defenseunicorns/zarf-package/dev-dependencies:209f5c61ed58083e1d4338596d4a00204094484e
     dataInjections:
       # TODO: (@WSTARR) We currently have to specify a subdirectory that is not real for us in this package
-      - source: zarf-uploader/packages
+      - source: packages
         target:
           namespace: zarf
           selector: app=package-registry-upload
@@ -37,7 +37,7 @@ components:
         before:
         # TODO: (@WSTARR) We currently have to cd into a subdirectory that is not real for us in this package
           - cmd: |
-              cd zarf-uploader/packages/generic/
+              cd packages/generic
               echo "{}" > manifest.json
               RELEASE=$(curl -L -s https://dl.k8s.io/release/stable.txt)
               
@@ -60,9 +60,9 @@ components:
               set +f
               unset IFS
           - cmd: |
-              pip download --only-binary :all: --dest zarf-uploader/packages/pypi --no-cache -r src/python/requirements.txt
+              pip download --only-binary :all: --dest packages/pypi --no-cache -r ../src/python/requirements.txt
           - cmd: |
-              cd src/node/
+              cd ../src/node/
               npm install
               PACKAGES="$(cat package-lock.json | jq -r '.packages | .[] | .resolved')"
               CURRENT_REGISTRY="$(npm config get registry)"
