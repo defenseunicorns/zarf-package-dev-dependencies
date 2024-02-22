@@ -7,6 +7,7 @@ clean: ## Cleanup downloaded files and packages
 	rm zarf-uploader/packages/npm/*
 	rm zarf-package-dev-dependencies-amd64.tar.zst
 
+.PHONY: test
 test: ## Test an already deployed version of the package
 	./test/run.sh
 
