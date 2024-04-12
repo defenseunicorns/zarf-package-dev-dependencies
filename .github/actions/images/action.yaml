@@ -10,6 +10,10 @@ runs:
         username: dummy
         password: ${{ github.token }}
 
-    - run: |
-        docker buildx build --push --platform linux/amd64 --tag ghcr.io/defenseunicorns/zarf-package/dev-dependencies:$GITHUB_SHA .
-      shell: bash
+    - name: Build and push
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        platforms: linux/amd64,linux/arm64
+        push: true
+        tags: ghcr.io/defenseunicorns/zarf-package/dev-dependencies:$GITHUB_SHA
