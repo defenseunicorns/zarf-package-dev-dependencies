@@ -13,7 +13,7 @@ RUN apt update && apt install -y python3 \
 
 RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash
 
-RUN apt update && apt -y install nodejs && apt upgrade && apt clean
+RUN apt update && apt -y install nodejs && apt -y upgrade && apt clean
 
 RUN pip3 install --upgrade pip && pip3 install twine && pip3 cache purge
 
